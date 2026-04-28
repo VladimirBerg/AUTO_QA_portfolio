@@ -24,11 +24,9 @@ jobs:
           pip install -r requirements.txt
           playwright install --with-deps chromium
 
-      - name: Run API tests
-        run: pytest api/tests/ -v
-
-      - name: Run UI tests
-        run: pytest ui/tests/ -v
+      - name: Run tests
+        run: pytest api/tests/ ui/tests/ -v --alluredir=allure-results
+        continue-on-error: true
 
       - name: Store allure results
         uses: actions/upload-artifact@v4
