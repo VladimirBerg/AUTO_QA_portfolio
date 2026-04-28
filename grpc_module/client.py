@@ -1,9 +1,9 @@
 ﻿import grpc
-import grpc.hello_pb2 as pb2
-import grpc.hello_pb2_grpc as pb2_grpc
+import hello_pb2 as pb2
+import hello_pb2_grpc as pb2_grpc
 
 class GrpcClient:
-    def __init__(self, host=""localhost:50051""):
+    def __init__(self, host='localhost:50051'):
         self.channel = grpc.insecure_channel(host)
         self.stub = pb2_grpc.GreeterStub(self.channel)
 
