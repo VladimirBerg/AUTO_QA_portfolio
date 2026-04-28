@@ -1,6 +1,7 @@
 ﻿import pytest
 import yaml
 from pathlib import Path
+from playwright.sync_api import sync_playwright
 from utils.logger import setup_logger
 
 def load_config(env: str = "dev"):
@@ -19,6 +20,20 @@ def test_logger(request):
     logger.info(f"Starting: {request.node.name}")
     yield logger
     logger.info(f"Finished: {request.node.name}")
+
+@pytest.fixture(scope="session")
+def browser():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        yield browser
+        browser.close()
+
+@pytest.fixture(scope="function")
+def page(browser):
+    context = browser.new_context()
+    page = context.new_page()
+    yield page
+    context.close()
 
 def pytest_addoption(parser):
     parser.addoption("--env", action="store", default="dev", help="Environment: dev or staging")
