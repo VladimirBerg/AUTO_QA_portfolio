@@ -1,4 +1,5 @@
 ﻿# 🚀 Automation QA Portfolio
+![CI](https://github.com/VladimirBerg/AUTO_QA_portfolio/actions/workflows/tests.yml/badge.svg)
 
 ## Стек
 Python - Pytest - Playwright - Requests - Allure - Docker - GitHub Actions
