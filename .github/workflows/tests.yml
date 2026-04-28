@@ -1,4 +1,4 @@
-﻿name: Run Tests
+﻿name: Run Tests in Docker
 
 on:
   push:
@@ -14,23 +14,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+      - name: Build Docker image
+        run: docker build -f docker/Dockerfile -t qa-tests .
 
-      - name: Install deps
-        run: |
-          pip install -r requirements.txt
-          playwright install --with-deps chromium
-
-      - name: Run tests
-        run: pytest api/tests/ ui/tests/ -v --alluredir=allure-results
-        continue-on-error: true
-
-      - name: Store allure results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: allure-results
-          path: allure-results/
+      - name: Run tests in Docker
+        run: docker run --rm qa-tests pytest api/tests/ ui/tests/ -v --alluredir=allure-results
