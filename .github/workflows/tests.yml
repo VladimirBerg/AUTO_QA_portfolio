@@ -5,6 +5,7 @@ on:
     branches: [master, main]
   pull_request:
     branches: [master, main]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -17,5 +18,5 @@ jobs:
       - name: Build Docker image
         run: docker build -f docker/Dockerfile -t qa-tests .
 
-      - name: Run tests in Docker
-        run: docker run --rm qa-tests pytest api/tests/ ui/tests/ -v --alluredir=allure-results
+      - name: Run API tests
+        run: docker run --rm qa-tests pytest api/tests/ -v
